@@ -1,5 +1,5 @@
-# No terraform { required_providers } block here: at deploy time CLM writes its
-# own feature.tf with that block, and a module may have only one.
+# required_providers lives in feature.tf, the file name CLM uses for it.
+# A module may have only one required_providers block.
 
 locals {
   # CLM also writes the Google Cloud account key into the work folder as a JSON
