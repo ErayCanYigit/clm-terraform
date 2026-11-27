@@ -9,11 +9,14 @@ locals {
     if try(jsondecode(file("${path.module}/${f}")).private_key, "") != ""
   ]
   key_file = var.path != "" ? var.path : try(local.key_files[0], "")
+
+  # First non-empty one: CLM's project variable, the project in the key file, var.project.
+  project_id = try(coalesce(var.gcp_projectid, try(jsondecode(file(local.key_file)).project_id, ""), var.project), null)
 }
 
 # Project and key come from CLM's Google Cloud account variables (see variables.tf).
 provider "google" {
-  project     = var.gcp_projectid != "" ? var.gcp_projectid : try(jsondecode(file(local.key_file)).project_id, null)
+  project     = local.project_id
   credentials = local.key_file != "" ? file(local.key_file) : null
   region      = var.region
 }

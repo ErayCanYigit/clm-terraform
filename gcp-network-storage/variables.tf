@@ -5,6 +5,12 @@ variable "gcp_projectid" {
   default = ""
 }
 
+# CLM passes this one on the command line (-var project=...) when it runs Git code.
+variable "project" {
+  type    = string
+  default = ""
+}
+
 variable "path" {
   description = "Path of the service account key file on the CLM server"
   type        = string
